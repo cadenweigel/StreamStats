@@ -2,7 +2,6 @@ import json
 import sys
 from typing import List
 import parser
-import misc_parsers as parser
 from objects import *
 
 """
@@ -25,11 +24,19 @@ def main():
 
     #get streams loaded into Artists and Songs
     parser.parseStreams(streams, Songs, Artists)
-    parser.sortSongs(Songs, 0, len(Songs.songs)-1)
-    parser.sortArtists(Artists, 0, len(Artists.artists)-1)
+    print("Total Streams: " + str(len(streams)))
+    print("Total Artists: " + str(len(Artists)))
+    print("Total Songs: " + str(len(Songs)))
+    parser.sortSongs(Songs, 0, len(Songs)-1)
+    parser.sortArtists(Artists, 0, len(Artists)-1)
 
+    print("\n")
     for i in range(5):
-        print(Artists.artists[i].name, Artists.artists[i].streams)
+        print(Artists[i].name, Artists[i].streams)
+
+    print("\n")
+    for i in range(5):
+        print(Songs[i].artist, Songs[i].title, Songs[i].streams, Songs[i].listenTime)
 
 if __name__ == "__main__":
     main()

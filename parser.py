@@ -67,14 +67,14 @@ def parseStreams(streams: Dict, songs: List[Song], artists: List[Artist]):
 
     for stream in streams:
     
-        stream_artist = artists.get_artist(stream['artistName'])
+        stream_artist = getArtist(stream['artistName'], artists)
 
         if stream_artist == None:
             #artist hasn't been added yet
             stream_artist = Artist(stream['artistName'])
             artists.append(stream_artist)
         
-        stream_song = stream_artist.songs.get_song(stream['trackName'])
+        stream_song = getSong(stream['trackName'], stream_artist.songs)
 
         if stream_song == None:
             #song hasn't been added yet
@@ -114,16 +114,16 @@ def sortSongs(songs: List[Song], low: int, high: int):
 
 def partitionSongs(songs: List[Song], low: int, high: int):
     
-    pivot = songs.songs[high].streams #choose the rightmost element as pivot
+    pivot = songs[high].streams #choose the rightmost element as pivot
     i = low - 1 #pointer for greater element
 
     for j in range(low, high):
-        if songs.songs[j].streams >= pivot:
+        if songs[j].streams >= pivot:
             i = i + 1 #swap it with the greater element pointed by i
-            (songs.songs[i], songs.songs[j]) = (songs.songs[j], songs.songs[i])
+            (songs[i], songs[j]) = (songs[j], songs[i])
 
     #Swap the pivot element with the greater element specified by i
-    (songs.songs[i+1], songs.songs[high]) = (songs.songs[high], songs.songs[i+1])
+    (songs[i+1], songs[high]) = (songs[high], songs[i+1])
 
     return i + 1 #Return the position from where partition is done
 
@@ -142,15 +142,29 @@ def sortArtists(artists: List[Artist], low: int, high: int):
 
 def partitionArtists(artists: List[Artist], low: int, high: int):
     
-    pivot = artists.artists[high].streams #choose the rightmost element as pivot
+    pivot = artists[high].streams #choose the rightmost element as pivot
     i = low - 1 #pointer for greater element
 
     for j in range(low, high):
-        if artists.artists[j].streams >= pivot:
+        if artists[j].streams >= pivot:
             i = i + 1 #swap it with the greater element pointed by i
-            (artists.artists[i], artists.artists[j]) = (artists.artists[j], artists.artists[i])
+            (artists[i], artists[j]) = (artists[j], artists[i])
 
     #Swap the pivot element with the greater element specified by i
-    (artists.artists[i+1], artists.artists[high]) = (artists.artists[high], artists.artists[i+1])
+    (artists[i+1], artists[high]) = (artists[high], artists[i+1])
 
     return i + 1 #Return the position from where partition is done 
+
+def getArtist(candidate, artists: List[Artist]) -> Artist:
+    #instead of returning true or false artist is returned
+    #so that we know what artist to work with
+    for a in artists:
+        if a.name == candidate:
+            return a 
+    return None    
+    
+def getSong(candidate, songs: List[Song]) -> Song:
+    for s in songs:
+        if s.title == candidate:
+            return s
+    return None
