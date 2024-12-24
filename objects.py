@@ -59,3 +59,17 @@ class Song():
 
     def estimate_song_length(self):
         return self.listenTime / self.streams #FIXME: rework to return in time format?
+    
+    def convertListenTime(self):
+        # Convert milliseconds to total seconds
+        seconds = self.listenTime // 1000
+
+        # Calculate hours
+        hours = seconds // 3600
+
+        # Calculate remaining minutes
+        remainingSeconds = seconds % 3600
+        minutes = remainingSeconds // 60
+
+        # Return formatted string
+        return f"{hours}h {minutes}m"

@@ -26,7 +26,7 @@ def main():
     parser.sortSongs(Songs, 0, len(Songs)-1)
     parser.sortArtists(Artists, 0, len(Artists)-1)
 
-    printToTerminal(streams, Artists, Songs)
+    #printToTerminal(streams, Artists, Songs)
     printToFile(streams, Artists, Songs)
 
 
@@ -45,23 +45,26 @@ def printToTerminal(streams, Artists, Songs):
         print(Songs[i].artist, Songs[i].title, Songs[i].streams, Songs[i].listenTime)
 
 def printToFile(streams, Artists, Songs):
-
     f = open("stream_report.txt", "w")
-    f.write("Stream Data Report \n \n")
+    f.write("Stream Data Report\n\n")
 
-    topArtists = ""
+    # Format for the top artists
+    f.write("Top Artists:\n\n")
+    f.write(f"{'Artist':<20}{'Streams':>10}\n")
+    f.write(f"{'-' * 30}\n")
     for i in range(5):
-        addString = Artists[i].name + " " + str(Artists[i].streams) + "\n"
-        topArtists += addString
-    f.write(topArtists + "\n")
+        f.write(f"{Artists[i].name:<20}{Artists[i].streams:>10}\n")
+    f.write("\n\n")
 
-    topSongs = ""
+    # Format for the top songs
+    f.write("Top Songs:\n\n")
+    f.write(f"{'Artist':<20}{'Title':<20}{'Streams':>10}{'Listen Time':>15}\n")
+    f.write(f"{'-' * 65}\n")
     for i in range(5):
-        addString = str(Songs[i].artist) + " " + Songs[i].title + " " + str(Songs[i].streams) + " " + str(Songs[i].listenTime) + "\n"
-        topSongs += addString
-    f.write(topSongs)
+        f.write(f"{str(Songs[i].artist):<20}{Songs[i].title:<20}{Songs[i].streams:>10}{Songs[i].convertListenTime():>15}\n")
 
     f.close()
+
 
 
 if __name__ == "__main__":

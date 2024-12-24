@@ -65,6 +65,9 @@ def parseStreams(streams: Dict, songs: List[Song], artists: List[Artist]):
     Returns nothing but updates songs and artists
     """
 
+    sum = 0
+    times = []
+
     for stream in streams:
     
         stream_artist = getArtist(stream['artistName'], artists)
@@ -97,7 +100,6 @@ def parseStreams(streams: Dict, songs: List[Song], artists: List[Artist]):
                 #firstStream is updated here to account for 0ms streams
                 stream_artist.firstStream = stream['endTime']
                 stream_song.firstStream = stream['endTime']
-        
 
 def sortSongs(songs: List[Song], low: int, high: int):
 
