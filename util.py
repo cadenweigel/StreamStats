@@ -2,6 +2,7 @@ import json
 import os
 from typing import List, Dict
 from objects import *
+import parser
 
 def convertListenTime(listenTime: int):
     # Convert milliseconds to total seconds, hours
@@ -31,3 +32,7 @@ def convertListenTimeDays(listenTime: int):
 
     # Return formatted string
     return f"{days}d {hours}h {minutes}m"
+
+def getUsername():
+    identity = parser.getFileAsDict("SpotifyAccountData/Identity.json")
+    return identity['displayName']

@@ -1,4 +1,5 @@
 import sys
+import os
 from typing import List
 import parser
 from objects import *
@@ -47,21 +48,27 @@ def printToTerminal(streams, Artists, Songs):
         print(Songs[i].artist, Songs[i].title, Songs[i].streams, Songs[i].listenTime)
 
 def printToFile(streams, Artists, Songs):
+
     f = open("stream_report.txt", "w")
-    f.write("Stream Data Report\n\n")
+    name = util.getUsername()
+    bounds = parser.getStreamBounds(streams)
+
+    f.write(f"Stream Data Report for {name}\n\n")
 
     f.write("Overall Stats:\n")
     f.write(f"Total Streams: {len(streams)}\n")
     f.write(f"Time Listened: {util.convertListenTimeDays(parser.sumListenTime(streams))}\n")
     f.write(f"Unique Artists: {len(Artists)}\n")
     f.write(f"Unique Songs: {len(Songs)}\n")
+    f.write(f"Dates Listened: {bounds[0]} to {bounds[1]} \n")
+    f.write("\n")
 
     # Format for the top artists
     f.write("Top Artists:\n\n")
-    f.write(f"{'Artist':<20}{'Streams':>10}\n")
-    f.write(f"{'-' * 30}\n")
+    f.write(f"{'Artist':<20}{'Streams':>10}{'Listen Time':>15}\n")
+    f.write(f"{'-' * 45}\n")
     for i in range(5):
-        f.write(f"{Artists[i].name:<20}{Artists[i].streams:>10}\n")
+        f.write(f"{Artists[i].name:<20}{Artists[i].streams:>10}{util.convertListenTime(Artists[i].listenTime):>15}\n")
     f.write("\n\n")
 
     # Format for the top songs
