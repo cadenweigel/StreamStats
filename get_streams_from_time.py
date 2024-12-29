@@ -14,7 +14,11 @@ def getStreamsFromTime(streams: List[dict], time):
     getStreamsFromTime(streams, 2024-01) -> returns all streams from January 2024
     getStreamsFromTime(streams, 2024-01-01) -> returns all streams from January 1st, 2024
     """
-    pass
+    validStreams = []
+    for stream in streams:
+        if stream["endTime"].startswith(time):
+            validStreams.append(stream)
+    return validStreams
 
 def getStreamsFromInterval(streams: List[dict], startTime, endTime):
     """

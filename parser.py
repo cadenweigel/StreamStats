@@ -171,3 +171,9 @@ def getSong(candidate, songs: List[Song]) -> Song:
         if s.title == candidate:
             return s
     return None
+
+def sumListenTime(streams: List[dict]):
+    listenTime = 0
+    for stream in streams:
+        listenTime += stream['msPlayed']
+    return listenTime

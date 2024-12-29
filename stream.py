@@ -2,6 +2,8 @@ import sys
 from typing import List
 import parser
 from objects import *
+import get_streams_from_time as time
+import util
 
 """
 Main file for parsing spotify data
@@ -48,6 +50,12 @@ def printToFile(streams, Artists, Songs):
     f = open("stream_report.txt", "w")
     f.write("Stream Data Report\n\n")
 
+    f.write("Overall Stats:\n")
+    f.write(f"Total Streams: {len(streams)}\n")
+    f.write(f"Time Listened: {util.convertListenTimeDays(parser.sumListenTime(streams))}\n")
+    f.write(f"Unique Artists: {len(Artists)}\n")
+    f.write(f"Unique Songs: {len(Songs)}\n")
+
     # Format for the top artists
     f.write("Top Artists:\n\n")
     f.write(f"{'Artist':<20}{'Streams':>10}\n")
@@ -61,7 +69,7 @@ def printToFile(streams, Artists, Songs):
     f.write(f"{'Artist':<20}{'Title':<20}{'Streams':>10}{'Listen Time':>15}\n")
     f.write(f"{'-' * 65}\n")
     for i in range(5):
-        f.write(f"{str(Songs[i].artist):<20}{Songs[i].title:<20}{Songs[i].streams:>10}{Songs[i].convertListenTime():>15}\n")
+        f.write(f"{str(Songs[i].artist):<20}{Songs[i].title:<20}{Songs[i].streams:>10}{util.convertListenTime(Songs[i].listenTime):>15}\n")
 
     f.close()
 
