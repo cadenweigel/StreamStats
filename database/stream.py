@@ -49,7 +49,7 @@ class Stream:
             cursor = db_connection.cursor()
 
             #use cursor.execute to upload to database
-            
+
 
             db_connection.commit()
             return True
@@ -59,3 +59,4 @@ class Stream:
             if self.db:
                 self.db.rollback()
             return False
+

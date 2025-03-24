@@ -77,24 +77,3 @@ def convertToStreamObjects(data):
     streams = []
 
     return streams
-
-def getSongs(streams):
-    """retuns a list of Song objects"""
-
-    songs = []
-
-    return songs
-
-def getArtists(streams):
-    """returns a list of Artist objects"""
-
-    artists = []
-
-    return artists
-
-def getAlbums(streams):
-    """returns a list of Album artists"""
-
-    albums = []
-
-    return albums
