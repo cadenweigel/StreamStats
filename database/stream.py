@@ -39,24 +39,70 @@ class Stream:
             "offline": self.offline
         }
     
-    def save_to_database(self, db_connection: sqlite3.Connection) -> bool:
-        """Save stream to database"""
-        if not db_connection:
-            print("Database connection not provided")
-            return False
 
-        try:
-            cursor = db_connection.cursor()
+class Song:
 
-            #use cursor.execute to upload to database
+    def __init__(self, name: str, artist_name: str, listen_time: int,
+                 first_stream: str, last_stream: str, streams: int):
 
+        self.name = name
+        self.artist_name = artist_name
+        self.listen_time = listen_time
+        self.first_stream = first_stream
+        self.last_stream = last_stream
+        self.streams = streams
 
-            db_connection.commit()
-            return True
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "artist_name": self.artist_name,
+            "listen_time": self.listen_time,
+            "first_stream": self.first_stream,
+            "last_stream": self.last_stream,
+            "streams": self.streams
+        }
+    
 
-        except Exception as e:
-            print(f"Error storing trail analysis: {e}")
-            if self.db:
-                self.db.rollback()
-            return False
+class Album:
 
+    def __init__(self, name: str, artist_name: str, listen_time: str,
+                 first_stream: str, last_stream: str, streams: int):
+        
+        self.name = name
+        self.artist_name = artist_name
+        self.listen_time = listen_time
+        self.first_stream = first_stream
+        self.last_stream = last_stream
+        self.streams = streams
+
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "artist_name": self.artist_name,
+            "listen_time": self.listen_time,
+            "first_stream": self.first_stream,
+            "last_stream": self.last_stream,
+            "streams": self.streams
+        }
+    
+
+class Artist:
+
+    def __init__(self, name: str, listen_time: str,
+                 first_stream: str, last_stream: str, streams: str):
+
+        self.name = name
+        self.listen_time = listen_time
+        self.first_stream = first_stream
+        self.last_stream = last_stream
+        self.streams = streams
+
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "listen_time": self.listen_time,
+            "first_stream": self.first_stream,
+            "last_stream": self.last_stream,
+            "streams": self.streams
+        }
+    

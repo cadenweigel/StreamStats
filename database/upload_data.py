@@ -14,13 +14,10 @@ def uploadStreams():
     """
 
     streams_dict = process_data.getStreamsFiltered(30)
-
-    #convert streams_dict to Stream objects
-    streams = []
+    streams = process_data.convertToStreamObjects(streams_dict)
 
     for s in streams:
-        new_stream = Stream()
-        streams.append(new_stream)
+        pass
 
     return True
 
@@ -29,7 +26,9 @@ def getArtists():
     Gets artists formatted as Artist objects from Streams table
     """
 
-    return True
+    artists = []
+
+    return artists
 
 def uploadArtists():
     """
@@ -45,7 +44,9 @@ def getAlbums():
     Gets artist_id from Artists table (match with artist_name), so that needs to be populated first
     """
 
-    return True
+    albums = []
+
+    return albums
 
 def uploadAlbums():
     """
@@ -63,11 +64,24 @@ def getSongs():
     Treat the same song on different albums as separate for now, API will fix issue
     """
 
-    return True
+    songs = []
 
-def UploadSongs():
+    return songs
+
+def uploadSongs():
     """
     Uploads Song objects into Songs table
     """
 
     return True
+
+def main():
+
+    print("Uploading data...")
+    #uploadStreams()
+    #uploadArtists()
+    #uploadAlbums()
+    #uploadSongs()
+
+if __name__ == "__main__":
+    main()

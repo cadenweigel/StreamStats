@@ -3,7 +3,7 @@ import sys
 import os
 from typing import List, Dict
 
-import stream #contains class definitions for Stream, Song, Artist, Album
+from stream import Stream
 
 """
 Contains functions used for processing the stream json data
@@ -75,5 +75,14 @@ def convertToStreamObjects(data):
     """converts array of dictionaries to an array of Stream objects"""
 
     streams = []
+
+    for d in data:
+        s = Stream(d['ts'], d['platform'], d['ms_played'], d['conn_country'],
+                    d['master_metadata_track_name'],
+                    d['master_metadata_album_artist_name'],
+                    d['master_metadata_album_album_name'],
+                    d['spotify_track_uri'], d['reason_start'], d['reason_end'],
+                    d['shuffle'], d['skipped'], d['offline'])
+        streams.append(s)
 
     return streams
