@@ -1,6 +1,14 @@
 import json
 import sys
 import os
+from typing import List, Dict
+
+import stream #contains class definitions for Stream, Song, Artist, Album
+
+"""
+Contains functions used for processing the stream json data
+These functions are primarily used in upload_data.py
+"""
 
 def getFileAsDict(filename):
     #return file contents as a list of dictionaries
@@ -63,3 +71,30 @@ def getStreamsFiltered(seconds):
 
     return filtered
 
+def convertToStreamObjects(data):
+    """converts array of dictionaries to an array of Stream objects"""
+
+    streams = []
+
+    return streams
+
+def getSongs(streams):
+    """retuns a list of Song objects"""
+
+    songs = []
+
+    return songs
+
+def getArtists(streams):
+    """returns a list of Artist objects"""
+
+    artists = []
+
+    return artists
+
+def getAlbums(streams):
+    """returns a list of Album artists"""
+
+    albums = []
+
+    return albums

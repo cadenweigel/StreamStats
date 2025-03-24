@@ -1,4 +1,5 @@
 from typing import List
+import sqlite3
 
 class Stream:
     
@@ -37,3 +38,24 @@ class Stream:
             "skipped": self.skipped,
             "offline": self.offline
         }
+    
+    def save_to_database(self, db_connection: sqlite3.Connection) -> bool:
+        """Save stream to database"""
+        if not db_connection:
+            print("Database connection not provided")
+            return False
+
+        try:
+            cursor = db_connection.cursor()
+
+            #use cursor.execute to upload to database
+            
+
+            db_connection.commit()
+            return True
+
+        except Exception as e:
+            print(f"Error storing trail analysis: {e}")
+            if self.db:
+                self.db.rollback()
+            return False
