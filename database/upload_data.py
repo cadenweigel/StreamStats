@@ -5,8 +5,14 @@ import sqlite3
 from typing import List
 import hashlib
 
-from database import process_data
+#add try except statements to allow running from database/ and elsewhere
+try:
+    from database import process_data
+except ImportError:
+    import process_data
+
 from database.stream import Stream, Song, Album, Artist
+
 
 DB_PATH = "database/streams.db"  # default
 

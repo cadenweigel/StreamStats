@@ -1,4 +1,4 @@
 #user specific database files
-database/streamdata/*
+streamdata/
 *.db
 __pycache__

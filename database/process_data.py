@@ -10,29 +10,26 @@ Contains functions used for processing the stream json data
 These functions are primarily used in upload_data.py
 """
 
-def getFileAsDict(filename):
-    #return file contents as a list of dictionaries
-    with open(filename, 'r', encoding="utf8", errors="replace") as file:
-        file_content = file.read()
-    data = json.loads(file_content) #creates a list of dicts
-    return data
-
 def getStreamFiles():
-    """
-    gets any streaming history files and returns a list of strings
-    want to automate it eventually (not type in file names manually)
-    should be able to check string until it gets to a number
-    SpotifyAccountData/StreamingHistory_music_ would indicate a valid file
-    """
-    files = os.listdir("streamdata")
-    stream_files = []
-    for f in files:
-        if f.startswith("Streaming_History_Audio_"):
-            #since the directory isn't included when doing os.listdir
-            #it needs to be added back in the string
-            stream_files.append("streamdata/" + f)
+    """Gets full paths to all JSON files in the streamdata directory."""
+    base_dir = os.path.dirname(__file__)  # -> .../database
+    streamdata_dir = os.path.abspath(os.path.join(base_dir, "..", "streamdata"))
 
-    return stream_files
+    if not os.path.exists(streamdata_dir):
+        raise FileNotFoundError(f"'streamdata' directory not found at: {streamdata_dir}")
+
+    files = [
+        os.path.join(streamdata_dir, f)
+        for f in os.listdir(streamdata_dir)
+        if f.endswith(".json")
+    ]
+    return sorted(files)
+
+
+def getFileAsDict(filename):
+    """Loads a single JSON file and returns its contents as a Python dict."""
+    with open(filename, 'r', encoding="utf8", errors="replace") as file:
+        return json.load(file)
 
 def getStreamsAll():
 
@@ -77,12 +74,16 @@ def convertToStreamObjects(data):
     streams = []
 
     for d in data:
+        artist = d.get('master_metadata_album_artist_name')
+        if not artist or not artist.strip():
+            continue  # Skip if artist is None or empty
+
         s = Stream(d['ts'], d['platform'], d['ms_played'], d['conn_country'],
-                    d['master_metadata_track_name'],
-                    d['master_metadata_album_artist_name'],
-                    d['master_metadata_album_album_name'],
-                    d['spotify_track_uri'], d['reason_start'], d['reason_end'],
-                    d['shuffle'], d['skipped'], d['offline'])
+                   d['master_metadata_track_name'],
+                   artist,
+                   d['master_metadata_album_album_name'],
+                   d['spotify_track_uri'], d['reason_start'], d['reason_end'],
+                   d['shuffle'], d['skipped'], d['offline'])
         streams.append(s)
 
     return streams
