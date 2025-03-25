@@ -69,4 +69,4 @@ def initialize_db(db_path="database/streams.db"):
     print("Database initialized successfully.")
 
 if __name__ == "__main__":
-    initialize_db()
+    initialize_db("streams.db")

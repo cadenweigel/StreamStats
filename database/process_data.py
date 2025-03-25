@@ -3,7 +3,7 @@ import sys
 import os
 from typing import List, Dict
 
-from stream import Stream
+from database.stream import Stream
 
 """
 Contains functions used for processing the stream json data
