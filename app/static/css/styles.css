@@ -1,0 +1,23 @@
+:root {
+    --main-color: #0750ed;       /* light blue */
+    --secondary-color: #10234d;  /* dark blue */
+    --text-light: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+header {
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    color: var(--main-color);
+}
