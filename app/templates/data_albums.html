@@ -11,14 +11,6 @@
   </header>
 
   <main style="padding: 2rem;">
-    <section>
-      <h2>Top Artists</h2>
-      <ol>
-        {% for artist in top_artists %}
-          <li>{{ artist.name }} — {{ artist.streams }} streams</li>
-        {% endfor %}
-      </ol>
-    </section>
 
     <section>
       <h2>Top Albums</h2>
@@ -29,13 +21,7 @@
       </ol>
     </section>
 
-    <section>
-      <h2>Top Songs</h2>
-      <ol>
-        {% for song in top_songs %}
-          <li>{{ song.name }} by {{ song.artist }} — {{ song.streams }} streams</li>
-        {% endfor %}
-      </ol>
+      </ul>
     </section>
   </main>
 </body>
