@@ -11,6 +11,22 @@ if __name__ == "__main__":
 def index():
     return render_template("index.html")
 
+
+def get_date_range():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT MIN(timestamp), MAX(timestamp) FROM Streams")
+    result = cursor.fetchone()
+    
+    conn.close()
+
+    if result:
+        earliest, latest = result
+        return {"earliest": earliest, "latest": latest}
+    else:
+        return {"earliest": None, "latest": None}
+
+
 def get_top_artists(limit: int):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -69,6 +85,7 @@ def get_data():
 def data_page():
     return render_template(
         "data.html",
+        date_range = get_date_range(),
         top_artists=get_top_artists(10),
         top_albums=get_top_albums(10),
         top_songs=get_top_songs(10)
