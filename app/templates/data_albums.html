@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Top Albums</title>
   <meta charset="UTF-8">
-  <title>Top Streamed Music</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-  <header>
-    <h1>Top Streamed Music</h1>
-  </header>
-
+  <header><h1>Top Albums</h1></header>
   <main style="padding: 2rem;">
-
     <section>
       <h2>Streaming Date Range</h2>
       <p>
@@ -27,12 +23,15 @@
       <h2>Top Albums</h2>
       <ol>
         {% for album in top_albums %}
-          <li>{{ album.name }} by {{ album.artist }} — {{ album.streams }} streams</li>
+          <li>{{ album.name }} by {{ album.artist }} —
+            {% if sort_by == 'streams' %}
+              {{ album.streams }} streams
+            {% else %}
+              {{ album.listen_time | format_time }} listened
+            {% endif %}
+          </li>
         {% endfor %}
       </ol>
-    </section>
-
-      </ul>
     </section>
   </main>
 </body>
