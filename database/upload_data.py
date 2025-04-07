@@ -183,7 +183,7 @@ def getSongs(streams: List[Stream], artists: List[Artist]) -> List[Song]:
         song = findSong(songs, s.track_name, s.artist_name)
 
         if not song:
-            song = Song(s.track_name, s.artist_name, 0, s.timestamp, s.timestamp, 0)
+            song = Song(s.track_name, s.artist_name, s.album_name, 0, s.timestamp, s.timestamp, 0)
             songs.append(song)
 
         song.listen_time += s.ms_played
@@ -204,7 +204,7 @@ def uploadSongs(data: List[Song]):
         for s in data:
             song_id = generate_id(s.name, s.artist_name)
             artist_id = generate_id(s.artist_name)
-            album_id = None  # Could be included later if available
+            album_id = generate_id(s.album_name, s.artist_name)
             cursor.execute("""
                 INSERT OR IGNORE INTO Songs (
                     song_id, song_name, artist_id, album_id,

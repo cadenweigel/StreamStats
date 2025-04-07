@@ -42,11 +42,13 @@ class Stream:
 
 class Song:
 
-    def __init__(self, name: str, artist_name: str, listen_time: int,
-                 first_stream: str, last_stream: str, streams: int):
+    def __init__(self, name: str, artist_name: str, album_name: str,
+                 listen_time: int, first_stream: str, last_stream: str, 
+                 streams: int):
 
         self.name = name
         self.artist_name = artist_name
+        self.album_name = album_name
         self.listen_time = listen_time
         self.first_stream = first_stream
         self.last_stream = last_stream
@@ -56,6 +58,7 @@ class Song:
         return {
             "name": self.name,
             "artist_name": self.artist_name,
+            "album_name": self.album_name,
             "listen_time": self.listen_time,
             "first_stream": self.first_stream,
             "last_stream": self.last_stream,
