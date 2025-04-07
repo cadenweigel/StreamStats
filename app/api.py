@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 import sqlite3
 from app import app
+from datetime import datetime
 
 DB_PATH = "database/streams.db"
 
@@ -19,7 +20,9 @@ def get_date_range():
     conn.close()
 
     if result:
-        earliest, latest = result
+        # Remove 'Z' and parse
+        earliest = datetime.strptime(result[0].rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
+        latest = datetime.strptime(result[1].rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
         return {"earliest": earliest, "latest": latest}
     else:
         return {"earliest": None, "latest": None}

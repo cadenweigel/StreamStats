@@ -17,7 +17,8 @@
       <h2>Streaming Date Range</h2>
       <p>
         {% if date_range.earliest and date_range.latest %}
-          From <strong>{{ date_range.earliest }}</strong> to <strong>{{ date_range.latest }}</strong>
+          From <strong>{{ date_range.earliest.strftime('%b %d, %Y') }}</strong> to
+          <strong>{{ date_range.latest.strftime('%b %d, %Y') }}</strong>
         {% else %}
           No data available.
         {% endif %}
