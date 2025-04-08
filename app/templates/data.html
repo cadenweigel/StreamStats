@@ -1,77 +1,38 @@
+<!--If you open this up in VSCode and errors show,
+    change the language in the bottom right to Jinja HTML-->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Top Streamed Music</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta charset="UTF-8">
+    <title>Listening Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/data.css') }}">
 </head>
 <body>
-  <header>
-    <h1>Top Streamed Music</h1>
-  </header>
 
-  <main style="padding: 2rem;">
+    <h1>Listening Data</h1>
 
-    <section>
-      <h2>Streaming Date Range</h2>
-      <p>
-        {% if date_range.earliest and date_range.latest %}
-          From <strong>{{ date_range.earliest.strftime('%b %d, %Y') }}</strong> to
-          <strong>{{ date_range.latest.strftime('%b %d, %Y') }}</strong>
-        {% else %}
-          No data available.
-        {% endif %}
-      </p>
-    </section>
+    <nav>
+        <button id="btn-artists" class="active" onclick="switchTab('artists')">Artists</button>
+        <button id="btn-albums" onclick="switchTab('albums')">Albums</button>
+        <button id="btn-songs" onclick="switchTab('songs')">Songs</button>
+    </nav>
 
-    <section>
-      <h2>Top Artists</h2>
-      <ol>
-        {% for artist in top_artists %}
-          <li>
-            {{ artist.name }} —
-            {% if sort_by == 'streams' %}
-              {{ artist.streams }} streams
-            {% else %}
-              {{ artist.listen_time | format_time }} listened
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ol>
-    </section>
+    <label>
+        <input type="checkbox" id="toggleView" onchange="toggleView()"> Show Listen Time
+    </label>
 
-    <section>
-      <h2>Top Albums</h2>
-      <ol>
-        {% for album in top_albums %}
-          <li>
-            {{ album.name }} by {{ album.artist }} —
-            {% if sort_by == 'streams' %}
-              {{ album.streams }} streams
-            {% else %}
-              {{ album.listen_time | format_time }} listened
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ol>
-    </section>
+    <div id="dataDisplay"></div>
 
-    <section>
-      <h2>Top Songs</h2>
-      <ol>
-        {% for song in top_songs %}
-          <li>
-            {{ song.name }} by {{ song.artist }} —
-            {% if sort_by == 'streams' %}
-              {{ song.streams }} streams
-            {% else %}
-              {{ song.listen_time | format_time }} listened
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ol>
-    </section>
-  </main>
+    <!-- Inject top data into a JS-accessible variable -->
+    <script >
+      window._data = {};
+      window._data.top_artists = {{ top_artists | tojson | safe }};
+      window._data.top_albums = {{ top_albums | tojson | safe }};
+      window._data.top_songs = {{ top_songs | tojson | safe }};
+  </script>
+
+    <!-- Link to your external JavaScript -->
+    <script src="{{ url_for('static', filename='js/data.js') }}"></script>
 </body>
 </html>

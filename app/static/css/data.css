@@ -1,0 +1,73 @@
+:root {
+    --main-color: #0750ed;
+    --secondary-color: #10234d;
+    --text-light: #ffffff;
+    --background: #f5f8ff;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    background-color: var(--background);
+    color: #000;
+}
+
+nav {
+    margin-bottom: 1.5rem;
+}
+
+nav button {
+    background-color: var(--main-color);
+    color: var(--text-light);
+    padding: 0.6rem 1.2rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+nav button:hover {
+    background-color: var(--secondary-color);
+}
+
+nav button.active {
+    background-color: var(--secondary-color);
+}
+
+label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f0f4ff;
+}
