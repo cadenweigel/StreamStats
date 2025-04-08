@@ -20,17 +20,37 @@ def get_date_range():
     conn.close()
 
     if result:
-        # Remove 'Z' and parse
         earliest = datetime.strptime(result[0].rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
         latest = datetime.strptime(result[1].rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
         return {"earliest": earliest, "latest": latest}
     else:
         return {"earliest": None, "latest": None}
 
-def get_top_artists(limit: int, from_date=None, to_date=None, sort_by='listen_time'):
+@app.route("/api/data", methods=["GET"])
+def api_data():
+    from_date = request.args.get("from")
+    to_date = request.args.get("to")
+    sort_by = request.args.get("sort", "listen_time")
+
+    return jsonify({
+        "top_artists": get_top_artists(50, from_date, to_date, sort_by),
+        "top_albums": get_top_albums(50, from_date, to_date, sort_by),
+        "top_songs": get_top_songs(50, from_date, to_date, sort_by),
+    })
+
+def get_top_artists(limit, from_date=None, to_date=None, sort_by='listen_time'):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    order_by = "total_listen_time DESC" if sort_by == 'listen_time' else "stream_count DESC"
+
+    if sort_by == 'listen_time':
+        order_by = "total_listen_time DESC"
+    elif sort_by == 'streams':
+        order_by = "stream_count DESC"
+    elif sort_by == 'name':
+        order_by = "LOWER(s.artist_name) ASC"
+    else:
+        order_by = "total_listen_time DESC"
+
     query = f"""
         SELECT s.artist_name, COUNT(*) as stream_count, SUM(s.ms_played) as total_listen_time
         FROM Streams s
@@ -45,10 +65,19 @@ def get_top_artists(limit: int, from_date=None, to_date=None, sort_by='listen_ti
     conn.close()
     return [{"name": row[0], "streams": row[1], "listen_time": row[2]} for row in results]
 
-def get_top_albums(limit: int, from_date=None, to_date=None, sort_by='listen_time'):
+def get_top_albums(limit, from_date=None, to_date=None, sort_by='listen_time'):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    order_by = "total_listen_time DESC" if sort_by == 'listen_time' else "stream_count DESC"
+
+    if sort_by == 'listen_time':
+        order_by = "total_listen_time DESC"
+    elif sort_by == 'streams':
+        order_by = "stream_count DESC"
+    elif sort_by == 'name':
+        order_by = "LOWER(s.album_name) ASC"
+    else:
+        order_by = "total_listen_time DESC"
+
     query = f"""
         SELECT s.album_name, s.artist_name, COUNT(*) as stream_count, SUM(s.ms_played) as total_listen_time
         FROM Streams s
@@ -66,10 +95,19 @@ def get_top_albums(limit: int, from_date=None, to_date=None, sort_by='listen_tim
         for row in results
     ]
 
-def get_top_songs(limit: int, from_date=None, to_date=None, sort_by='listen_time'):
+def get_top_songs(limit, from_date=None, to_date=None, sort_by='listen_time'):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    order_by = "total_listen_time DESC" if sort_by == 'listen_time' else "stream_count DESC"
+
+    if sort_by == 'listen_time':
+        order_by = "total_listen_time DESC"
+    elif sort_by == 'streams':
+        order_by = "stream_count DESC"
+    elif sort_by == 'name':
+        order_by = "LOWER(s.song_name) ASC"
+    else:
+        order_by = "total_listen_time DESC"
+
     query = f"""
         SELECT s.song_name, s.artist_name, COUNT(*) as stream_count, SUM(s.ms_played) as total_listen_time
         FROM Streams s
@@ -96,9 +134,9 @@ def data_page():
     return render_template(
         "data.html",
         date_range=get_date_range(),
-        top_artists=get_top_artists(10, from_date, to_date, sort_by),
-        top_albums=get_top_albums(10, from_date, to_date, sort_by),
-        top_songs=get_top_songs(10, from_date, to_date, sort_by),
+        top_artists=get_top_artists(25, from_date, to_date, sort_by),
+        top_albums=get_top_albums(25, from_date, to_date, sort_by),
+        top_songs=get_top_songs(25, from_date, to_date, sort_by),
         from_date=from_date,
         to_date=to_date,
         sort_by=sort_by
