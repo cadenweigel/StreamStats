@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamStats</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
 
@@ -12,21 +12,14 @@
     <h1>StreamStats</h1>
 </header>
 
-<main style="text-align: center; margin-top: 2rem;">
-    <h2>Sort by Streams</h2>
-    <a href="/data?sort=streams" class="button">Top 10</a>
-    <a href="/data/artists?sort=streams" class="button">Top Artists</a>
-    <a href="/data/albums?sort=streams" class="button">Top Albums</a>
-    <a href="/data/songs?sort=streams" class="button">Top Songs</a>
-</main>
-
-<main style="text-align: center; margin-top: 2rem;">
-    <h2>Sort by Listen Time</h2>
-    <a href="/data?sort=listen_time" class="button">Top 10</a>
-    <a href="/data/artists?sort=listen_time" class="button">Top Artists</a>
-    <a href="/data/albums?sort=listen_time" class="button">Top Albums</a>
-    <a href="/data/songs?sort=listen_time" class="button">Top Songs</a>
-</main>
+    <div class="button-container">
+        <a href="{{ url_for('data_page') }}">
+            <button>View Top Stats</button>
+        </a>
+        <a href="{{ url_for('overall_stats_page') }}">
+            <button>View Overall Stats</button>
+        </a>
+    </div>
 
 </body>
 </html>

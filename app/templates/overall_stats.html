@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Overall Listening Stats</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/overall_stats.css') }}">
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <a class="back-button" href="{{ url_for('index') }}">← Back to Home</a>
+      <h1>StreamStats</h1>
+    </div>
+  </header>  
+
+  <ul class="stats-list">
+    <li><strong>Total Streams:</strong> {{ stats.total_streams }}</li>
+    <li><strong>Total Listening Time:</strong> {{ (stats.total_listening_time // 60000) | int }} minutes</li>
+    <li><strong>Unique Songs:</strong> {{ stats.unique_songs }}</li>
+    <li><strong>Unique Albums:</strong> {{ stats.unique_albums }}</li>
+    <li><strong>Unique Artists:</strong> {{ stats.unique_artists }}</li>
+  </ul>
+
+</body>
+</html>
